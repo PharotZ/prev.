@@ -190,7 +190,7 @@ textarea {
     border-radius: 5px;
     background-color: #000000;
     color: white;
-    border: 2px solid #475281;
+    border: 2px solid #5767ae;
     resize: none;
 }
 
