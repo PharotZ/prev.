@@ -5,7 +5,7 @@ import { hatch } from 'ldrs'
 import PhoneMusic from './PhoneMusic.vue'
 hatch.register()
 
-
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
 const wheelRadius = 400
 const albumCount = allAlbums.length
 const angleStep = 360 / albumCount
@@ -147,14 +147,6 @@ const formatTime = (time) => {
     const seconds = Math.floor(time % 60)
     return `${minutes}:${seconds.toString().padStart(2, '0')}`
 }
-const setVolume = (event) => {
-    const rect = event.target.getBoundingClientRect()
-    const percent = (event.clientX - rect.left) / rect.width
-    volume.value = Math.max(0, Math.min(1, percent))
-    if (audioRef.value) {
-        audioRef.value.volume = volume.value
-    }
-}
 const setVolumeSlider = (event) => {
     const val = parseFloat(event.target.value)
     // Use a quadratic curve for more natural volume scaling
@@ -168,6 +160,53 @@ const handleImageError = (event) => {
     event.target.src = '/covers/default-cover.jpg'
 }
 
+const dragging = ref(false)
+const lastX = ref(0)
+const lastRotation = ref(0)
+
+function onWheelMouseDown(e) {
+    dragging.value = true
+    lastX.value = e.clientY // Use Y for vertical drag
+    lastRotation.value = rotation.value
+    window.addEventListener('mousemove', onWheelMouseMove)
+    window.addEventListener('mouseup', onWheelMouseUp)
+}
+
+function onWheelMouseMove(e) {
+    if (!dragging.value) return
+    const deltaY = e.clientY - lastX.value // Use Y for vertical drag
+    rotation.value = (lastRotation.value + deltaY * 0.2) % 360 // Adjust sensitivity as needed
+    updateSelectedIndex()
+}
+
+function onWheelMouseUp() {
+    dragging.value = false
+    window.removeEventListener('mousemove', onWheelMouseMove)
+    window.removeEventListener('mouseup', onWheelMouseUp)
+}
+
+// Touch support
+function onWheelTouchStart(e) {
+    if (e.touches.length !== 1) return
+    dragging.value = true
+    lastX.value = e.touches[0].clientY // Use Y for vertical drag
+    lastRotation.value = rotation.value
+    window.addEventListener('touchmove', onWheelTouchMove)
+    window.addEventListener('touchend', onWheelTouchEnd)
+}
+
+function onWheelTouchMove(e) {
+    if (!dragging.value || e.touches.length !== 1) return
+    const deltaY = e.touches[0].clientY - lastX.value // Use Y for vertical drag
+    rotation.value = (lastRotation.value + deltaY * 0.2) % 360
+    updateSelectedIndex()
+}
+
+function onWheelTouchEnd() {
+    dragging.value = false
+    window.removeEventListener('touchmove', onWheelTouchMove)
+    window.removeEventListener('touchend', onWheelTouchEnd)
+}
 
 onMounted(() => {
     window.addEventListener('wheel', handleScroll, { passive: false })
@@ -198,9 +237,12 @@ onUnmounted(() => {
         <audio ref="audioRef" preload="metadata"></audio>
         <PhoneMusic v-if="isPhone" :selectedAlbum="selectedAlbumPhone" @select-album="selectAlbum" />
             <!-- Main wheel container - positioned to show only right side -->
-            <div v-else ref="wheelRef" class="wheel">
+            <div v-else ref="wheelRef" class="wheel"
+    @mousedown="onWheelMouseDown"
+    @touchstart="onWheelTouchStart"
+    style="touch-action: pan-y;">
                 <!-- Individual album items positioned around the wheel -->
-                <div v-for="(album, index) in albumPositions" :key="`album-${album.index}`" class="wheel-item"
+                <div v-for="(album) in albumPositions" :key="`album-${album.index}`" class="wheel-item"
                     :class="{ 'selected': album.centered }" :style="{
                         transform: `translate(-50%, -50%) translate(${album.x}px, ${album.y}px)`
                     }">
@@ -255,7 +297,7 @@ onUnmounted(() => {
                     <span class="time">{{ formatTime(duration) }}</span>
                 </div>
 
-                <div class="volume-control">
+                <div v-if="!isIOS" class="volume-control">
                     <span>🔊</span>
                     <input type="range" min="0" max="1" step="0.01" v-model="volume" @input="setVolumeSlider"
                         class="volume-slider" />
