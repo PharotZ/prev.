@@ -11,6 +11,10 @@
   font-family: var(--font-body);
 }
 
+button {
+  font-family: var(--font-body);
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-headings);
   letter-spacing: 0.03em;
@@ -26,11 +30,4 @@ body {
   padding: 0;
   width: 100%;
   overflow-x: hidden;
-}
-
-/* Add some responsive styling */
-@media (min-width: 1024px) {
-  main {
-    padding: 0 2rem;
-  }
 }

@@ -9,7 +9,9 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Contact: typeof import('./src/components/ContactPage.vue')['default']
+    ContactPage: typeof import('./src/components/ContactPage.vue')['default']
     Fashion: typeof import('./src/components/FashionTable.vue')['default']
+    FashionTable: typeof import('./src/components/FashionTable.vue')['default']
     Home: typeof import('./src/components/Home.vue')['default']
     MusicPlayer: typeof import('./src/components/MusicPlayer.vue')['default']
     ParallaxScroll: typeof import('./src/components/ParallaxScroll.vue')['default']
@@ -17,5 +19,6 @@ declare module 'vue' {
     PreviewCard: typeof import('./src/components/PreviewCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SecretPage: typeof import('./src/components/SecretPage.vue')['default']
   }
 }
