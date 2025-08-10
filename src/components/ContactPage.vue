@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { instagramIcon, githubIcon, linkedinIcon, formIcon, vueIcon, motionIcon, libraryIcon } from '../assets/icons'
 
 const scriptURL = 'https://script.google.com/macros/s/AKfycbxmnQZxiMbSn5OS_ucHtgPQ2aYc9Qgy0J5JVsa5zVCQO_35SY8H4ybfERfnVvgVmgnI/exec'
@@ -16,13 +16,38 @@ async function submitForm() {
     }
 }
 
-const planets = [
+const basePlanets = [
     { icon: githubIcon, label: 'GitHub', link: 'https://github.com/PharotZ', color: '#333', radius: 80, speed: 14, angle: 0 },
     { icon: instagramIcon, label: 'Instagram', link: 'https://www.instagram.com/t4xyo', color: '#E4405F', radius: 128, speed: 18, angle: 80 },
     { icon: linkedinIcon, label: 'LinkedIn', link: 'https://www.linkedin.com/in/theo-baron-72944929b', color: '#0077B5', radius: 176, speed: 16, angle: 160 },
     { icon: formIcon, label: 'Contact', link: '#', color: '#95a8ff', radius: 228, speed: 22, angle: 240 },
     { icon: libraryIcon, label: 'Library', link: '#', color: '#ff5722', radius: 300, speed: 26, angle: 300 }
 ]
+
+const isPhone = ref(window.innerWidth <= 600)
+function handleResize() {
+    isPhone.value = window.innerWidth <= 600
+}
+onMounted(() => {
+    window.addEventListener('resize', handleResize)
+})
+onUnmounted(() => {
+    window.removeEventListener('resize', handleResize)
+})
+
+const planets = computed(() => {
+    if (isPhone.value) {
+        return basePlanets.map(p => ({ ...p, radius: p.radius / 2 }))
+    }
+    return basePlanets
+})
+
+const miniPlanets = computed(() => {
+    if (isPhone.value) {
+        return subPlanets.map(p => ({ ...p, radius: p.radius / 2 }))
+    }
+    return subPlanets
+})
 
 const subPlanets = [
     { icon: vueIcon, label: 'Vue.js', link: 'https://vuejs.org', color: '#42b883', radius: 45, speed: 6, angle: 0 },
@@ -84,7 +109,7 @@ function closeForm() {
                     <div class="planet-icon">
                         <span v-html="planet.icon"></span>
                         <div v-if="showSubPlanets" class="sub-solar-system">
-                            <div v-for="(sub, subIdx) in subPlanets" :key="sub.label" class="sub-planet-orbit"
+                            <div v-for="(sub, subIdx) in miniPlanets" :key="sub.label" class="sub-planet-orbit"
                                 :style="getPlanetStyle(sub, subIdx)" @click.stop="handleSubPlanetClick(sub)">
                                 <div class="sub-planet-icon" v-html="sub.icon"></div>
                             </div>
@@ -267,13 +292,13 @@ function closeForm() {
     }
 
     .planet-icon {
-        width: 32px;
-        height: 32px;
+        width: 22px;
+        height: 22px;
     }
 
-    .planet-label {
-        font-size: 10px;
-        padding: 2px 4px;
+    .sub-planet-icon {
+        width: 20px;
+        height: 20px;
     }
 }
 /* ...existing code... */
