@@ -154,11 +154,12 @@ export default {
 
 .globe-container {
   position: fixed;
-  top: 40px;
+  top: 0px;
+  background-color: black;
   /* Added space for the navbar */
   left: 0;
   width: 100%;
-  height: calc(100vh - 40px);
+  height: 100%;
   /* Adjusted height to account for navbar */
   display: flex;
   justify-content: center;
