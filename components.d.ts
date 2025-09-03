@@ -13,6 +13,7 @@ declare module 'vue' {
     Fashion: typeof import('./src/components/FashionTable.vue')['default']
     FashionTable: typeof import('./src/components/FashionTable.vue')['default']
     Home: typeof import('./src/components/Home.vue')['default']
+    LoginPage: typeof import('./src/components/LoginPage.vue')['default']
     MusicPlayer: typeof import('./src/components/MusicPlayer.vue')['default']
     ParallaxScroll: typeof import('./src/components/ParallaxScroll.vue')['default']
     PhoneMusic: typeof import('./src/components/PhoneMusic.vue')['default']

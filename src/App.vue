@@ -7,10 +7,18 @@ const route = useRoute()
   <div class="app-container">
     <header v-if="route.path !== '/'" class="site-header">
       <nav>
-        <router-link to="/">Home</router-link> |
-        <router-link to="/wheel">Music Player</router-link> |
-        <router-link to="/fashion">Fashion Table</router-link> |
-        <router-link to="/contact">Contact</router-link>
+        <div class="tab-links">
+          <router-link to="/">Home</router-link> |
+          <router-link to="/wheel">Music Player</router-link> |
+          <router-link to="/fashion">Fashion Table</router-link> |
+          <router-link to="/contact">Contact</router-link>
+        </div>
+        <router-link to="/login"><svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-width="2"
+              d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+          </svg>
+        </router-link>
       </nav>
     </header>
     <main>
@@ -50,11 +58,15 @@ const route = useRoute()
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(5px);
-  z-index: 1000; /* Ensure navbar is above everything */
+  z-index: 1000;
+  /* Ensure navbar is above everything */
 }
 
 nav {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
 nav a {
@@ -72,7 +84,9 @@ nav a.router-link-active {
 }
 
 main {
-  flex: 1; /* Add spacing for the fixed header */ /* Add some additional padding */
+  flex: 1;
+  /* Add spacing for the fixed header */
+  /* Add some additional padding */
 }
 
 @media screen and (max-width: 600px) {
@@ -89,6 +103,4 @@ main {
     padding-top: 12px;
   }
 }
-
-
 </style>

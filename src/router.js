@@ -4,6 +4,7 @@ import MusicPlayer from './components/MusicPlayer.vue';
 import Contact from './components/ContactPage.vue';
 import Fashion from './components/FashionTable.vue';
 import Secret from './components/SecretPage.vue';
+import Login from './components/LoginPage.vue';
 const routes = [
     {
         path: '',
@@ -34,6 +35,11 @@ const routes = [
         path: '/secret',
         name: 'Secret',
         component: Secret,
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: Login
     }
 ];
 const router = createRouter({

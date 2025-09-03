@@ -394,6 +394,7 @@ function prevImage() {
 .visuels-btn {
   border: 2px dotted #b7ac0f;
   color: #fff;
+  background-color: transparent;
   border-radius: 6px;
   padding: 6px 10px;
   font-size: 0.95rem;

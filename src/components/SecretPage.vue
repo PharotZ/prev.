@@ -2,43 +2,14 @@
 import { ref } from 'vue'
 
 const password = ref('')
-const isPasswordCat = ref(false)
-const isPasswordAmogus = ref(false)
-const isPasswordGoon = ref(false)
-const isPasswordFeur = ref(false)
-const isPasswordCoubeh = ref(false)
+const contentType = ref('')
 
 function checkPassword() {
-    if (password.value === 'cat') {
-        isPasswordCat.value = true
-        isPasswordAmogus.value = false
-        isPasswordGoon.value = false
-        isPasswordFeur.value = false
-        isPasswordCoubeh.value = false
-    } else if (password.value === 'amogus') {
-        isPasswordAmogus.value = true
-        isPasswordCat.value = false
-        isPasswordGoon.value = false
-        isPasswordFeur.value = false
-        isPasswordCoubeh.value = false
-    } else if (password.value === 'goon') {
-        isPasswordCat.value = false
-        isPasswordAmogus.value = false
-        isPasswordGoon.value = true
-        isPasswordFeur.value = false
-        isPasswordCoubeh.value = false
-    } else if (password.value === 'feur') {
-        isPasswordCat.value = false
-        isPasswordAmogus.value = false
-        isPasswordGoon.value = false
-        isPasswordFeur.value = true
-        isPasswordCoubeh.value = false
-    } else if (password.value === 'coubeh') {
-        isPasswordCat.value = false
-        isPasswordAmogus.value = false
-        isPasswordGoon.value = false
-        isPasswordFeur.value = false
-        isPasswordCoubeh.value = true
+    const val = password.value.toLowerCase()
+    if (["cat", "amogus", "goon", "feur", "coubeh", "dog", "vilnius"].includes(val)) {
+        contentType.value = val
+    } else {
+        contentType.value = ''
     }
 }
 </script>
@@ -46,25 +17,32 @@ function checkPassword() {
 <template>
     <div class="secret-page">
         <div class="password-container">
-            <input type="password" v-model="password" placeholder="Enter password" />
+            <input type="password" v-model="password" placeholder="Password (lowercase)" />
             <button @click="checkPassword">Submit</button>
         </div>
 
-        <div class="secret-content" v-if="isPasswordCat">
+        <div class="secret-content" v-if="contentType === 'cat'">
             <img src="../assets/cat-spinning.gif" alt="Secret"/>
         </div>
-        <div class="secret-content" v-if="isPasswordAmogus">
+        <div class="secret-content" v-if="contentType === 'amogus'">
             <img src="../assets/amogus.gif" alt="Secret" />
         </div>
-        <div class="secret-content" v-if="isPasswordGoon">
+        <div class="secret-content" v-if="contentType === 'goon'">
             <img src="../assets/goon.gif" alt="Secret" />
             <p>Tom arrête.</p>
         </div>
-        <div class="secret-content" v-if="isPasswordFeur">
+        <div class="secret-content" v-if="contentType === 'feur'">
             coubeh.
         </div>
-        <div class="secret-content" v-if="isPasswordCoubeh">
+        <div class="secret-content" v-if="contentType === 'coubeh'">
             feur.
+        </div>
+        <div class="secret-content" v-if="contentType === 'dog'">
+            <img src="../assets/dog.gif" alt="Secret" />
+        </div>
+        <div class="secret-content" v-if="contentType === 'vilnius'">
+            <img src="../assets/vilnius.jpg" alt="Secret" />
+            <p>My Slattina</p>
         </div>
     </div>
 </template>
