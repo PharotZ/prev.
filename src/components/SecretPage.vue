@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const password = ref('')
 const contentType = ref('')
+const router = useRouter()
 
 function checkPassword() {
     const val = password.value.toLowerCase()
-    if (["cat", "amogus", "goon", "feur", "coubeh", "dog", "vilnius"].includes(val)) {
+    if(val === "riho"){
+        router.push('/OBXXK5TPNFZA====')
+    }
+    else if (["cat", "amogus", "goon", "feur", "coubeh", "dog", "vilnius"].includes(val)) {
         contentType.value = val
     } else {
         contentType.value = ''

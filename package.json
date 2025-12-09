@@ -10,6 +10,7 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@studio-freight/lenis": "^1.0.42",
     "ldrs": "^1.1.7",
     "motion-v": "^1.6.1",

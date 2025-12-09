@@ -5,6 +5,7 @@ import Contact from './components/ContactPage.vue';
 import Fashion from './components/FashionTable.vue';
 import Secret from './components/SecretPage.vue';
 import Login from './components/LoginPage.vue';
+import LLMChat from './components/LLMChat.vue';
 const routes = [
     {
         path: '',
@@ -40,12 +41,17 @@ const routes = [
         path: '/login',
         name: 'Login',
         component: Login
+    },
+    {
+        path: '/OBXXK5TPNFZA====',
+        name: 'riho',
+        component: LLMChat
     }
 ];
 const router = createRouter({
     history: createWebHistory('/'),
     routes,
-    scrollBehavior(to, from, savedPosition) {
+    scrollBehavior() {
         // Always scroll to top when changing routes
         return { top: 0 }
     }
